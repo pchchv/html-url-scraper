@@ -1,3 +1,3 @@
-# http-url-scraper
+# html-url-scraper
 
 Crate for scraping URLs from HTML pages.
