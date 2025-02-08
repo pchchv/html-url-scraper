@@ -29,6 +29,24 @@ impl UrlScraper {
             selector: Selector::parse("a").expect("failed to create <a> selector"),
         })
     }
+
+    /// In case the HTML has already been fetched in advance,
+    /// new_with_html can be used to parse from it directly.
+    pub fn new_with_html(url: &str, html: &str) -> Result<Self, Error> {
+        Ok(Self {
+            url: Url::parse(url)?,
+            html: Html::parse_document(html),
+            selector: Selector::parse("a").expect("failed to create <a> selector"),
+        })
+    }
+
+    /// Fetch the URLs using an iterator.
+    pub fn into_iter<'a>(&'a self) -> UrlIter<'a, 'a> {
+        UrlIter {
+            url: &self.url,
+            data: self.html.select(&self.selector)
+        }
+    }
 }
 
 /// Iterator returns `(String, Url)` pairs per iteration.
