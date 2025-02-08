@@ -30,3 +30,15 @@ pub enum Error {
     UrlParsing { why: ParseError },
     Request { why: reqwest::Error }
 }
+
+impl From<url::ParseError> for Error {
+    fn from(why: url::ParseError) -> Error {
+        Error::UrlParsing { why }
+    }
+}
+
+impl From<reqwest::Error> for Error {
+    fn from(why: reqwest::Error) -> Error {
+        Error::Request { why }
+    }
+}
