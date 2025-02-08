@@ -1,7 +1,14 @@
 use std::fmt;
 use reqwest::Url;
 use url::ParseError;
-use scraper::html::Select;
+use scraper::{Html, Selector, html::Select};
+
+/// UrlScraper stores the HTML document in memory.
+pub struct UrlScraper {
+    url: Url,
+    html: Html,
+    selector: Selector,
+}
 
 /// Iterator returns `(String, Url)` pairs per iteration.
 pub struct UrlIter<'a, 'b> {
