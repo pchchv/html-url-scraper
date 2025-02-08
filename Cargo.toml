@@ -13,3 +13,4 @@ categories = ["web-programming"]
 [dependencies]
 reqwest = "0.12.12"
 scraper = "0.22.0"
+url = "2.5.4"
