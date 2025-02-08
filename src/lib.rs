@@ -1,4 +1,5 @@
 use reqwest::Url;
+use url::ParseError;
 use scraper::html::Select;
 
 /// Iterator returns `(String, Url)` pairs per iteration.
@@ -22,4 +23,10 @@ impl<'a, 'b> Iterator for UrlIter<'a, 'b> {
         }
         None
     }
+}
+
+#[derive(Debug)]
+pub enum Error {
+    UrlParsing { why: ParseError },
+    Request { why: reqwest::Error }
 }
