@@ -1,6 +1,6 @@
 use std::fmt;
-use reqwest::Url;
 use url::ParseError;
+use reqwest::{Url, Client};
 use scraper::{Html, Selector, html::Select};
 
 /// UrlScraper stores the HTML document in memory.
@@ -8,6 +8,27 @@ pub struct UrlScraper {
     url: Url,
     html: Html,
     selector: Selector,
+}
+
+impl UrlScraper {
+    /// Constructs a new scraper from a given URL.
+    pub async fn new(url: &str) -> Result<Self, Error> {
+        let client = Client::new();
+        Self::new_with_client(url, &client).await
+    }
+
+    /// Use an existing `reqwest::Client` to make a request.
+    pub async fn new_with_client(url: &str, client: &Client) -> Result<Self, Error> {
+        let url = Url::parse(url)?;
+        let resp = client.get(url.clone()).send().await?;
+        let html = resp.text().await?;
+
+        Ok(Self {
+            url,
+            html: Html::parse_document(&html),
+            selector: Selector::parse("a").expect("failed to create <a> selector"),
+        })
+    }
 }
 
 /// Iterator returns `(String, Url)` pairs per iteration.
