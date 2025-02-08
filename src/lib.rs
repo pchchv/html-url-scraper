@@ -1,3 +1,4 @@
+use std::fmt;
 use reqwest::Url;
 use url::ParseError;
 use scraper::html::Select;
@@ -40,5 +41,15 @@ impl From<url::ParseError> for Error {
 impl From<reqwest::Error> for Error {
     fn from(why: reqwest::Error) -> Error {
         Error::Request { why }
+    }
+}
+
+impl fmt::Display for Error {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let error = match *self {
+            Error::UrlParsing { ref why } => format!("failed to parse URL: {}", why),
+            Error::Request { ref why } => format!("failure in request: {}", why),
+        };
+        f.write_str(&error)
     }
 }
