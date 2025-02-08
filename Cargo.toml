@@ -11,3 +11,5 @@ keywords = ["url", "scraper", "html"]
 categories = ["web-programming"]
 
 [dependencies]
+reqwest = "0.12.12"
+scraper = "0.22.0"
