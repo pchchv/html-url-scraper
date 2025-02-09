@@ -41,7 +41,7 @@ impl UrlScraper {
     }
 
     /// Fetch the URLs using an iterator.
-    pub fn into_iter<'a>(&'a self) -> UrlIter<'a, 'a> {
+    pub fn into_iter(&self) -> UrlIter<'_, '_> {
         UrlIter {
             url: &self.url,
             data: self.html.select(&self.selector)
@@ -55,7 +55,7 @@ pub struct UrlIter<'a, 'b> {
     data: Select<'a, 'b>
 }
 
-impl<'a, 'b> Iterator for UrlIter<'a, 'b> {
+impl Iterator for UrlIter<'_, '_> {
     type Item = (String, Url);
 
     fn next(&mut self) -> Option<Self::Item> {

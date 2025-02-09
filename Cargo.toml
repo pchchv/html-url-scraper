@@ -1,6 +1,6 @@
 [package]
 name = "html-url-scraper"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Evgenii Pochechuev <pchchv@proton.me>"]
 edition = "2021"
 description = "Crate for scraping URLs from HTML pages"
